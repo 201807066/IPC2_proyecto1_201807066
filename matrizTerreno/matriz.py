@@ -60,7 +60,46 @@ class Matriz():
                 if aux.abajo == None:
                     aux.abajo = nuevo
                     nuevo.arriba = aux
+
+
+    def recorrerFilas(self):
+        eFila = self.eFilas.primero
+        print("--> Recorrido por filas")
+
+        while eFila != None:
+            aux = eFila.acceso
+
+            print("\nFila: " + str(aux.fila))
+            print("Columna: Valor")
+            while aux != None:
+                print(str(aux.columna) + "           "+ str(aux.valor))
+                aux = aux.derecha
+
+            eFila = eFila.siguiente
+
+    def recorrerColumnas(self):
+        eColumna = self.eColumnas.primero
+        print("--> Recorrido por Columnas")
+
+        while eColumna != None:
+            aux = eColumna.acceso
             
+            print("\nColumna: " + str(aux.columna))
+            print("Fila: Valor")
+            while aux != None:
+                print(str(aux.fila) + "          " + str(aux.valor))
+                aux = aux.abajo
+
+            eColumna = eColumna.siguiente
+
+
+
 m = Matriz()
 m.insertar(1,1,32)
 m.insertar(1,2,100)
+m.insertar(4,2,100)
+m.insertar(6,2,100)
+m.insertar(2,2,100)
+m.recorrerFilas()
+print("\nREsadasdasjd")
+m.recorrerColumnas()

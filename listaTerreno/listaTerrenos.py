@@ -10,8 +10,8 @@ class ListaTerreno():
     def vacia(self):
         return self.inicio == None
     
-    def agregar(self, nombre, inicioX, inicioY, finX, finY):
-        terreno = Nodo(nombre, inicioX, inicioY, finX, finY)
+    def agregarTerreno(self, nombre, columna, fila, inicioX, inicioY, finX, finY):
+        terreno = Nodo(nombre, columna, fila, inicioX, inicioY, finX, finY)
         self.size += 1
         
         if self.vacia():
@@ -25,6 +25,10 @@ class ListaTerreno():
 
         while aux != None:
             print("Nombre: ", aux.nombre)
+            print("Dimensiones del terreno: ", aux.columna, "x", aux.fila)
+            print("Coordenada de Inicio --> Fila/Columna: ", "(", aux.inicioX, ",", aux.inicioY , ")")
+            print("Coordenada de Fin --> Fila/Columna: ", "(", aux.finX, ",", aux.finY , ")")
+            print("\n")
             aux = aux.siguiente
 
     def buscarTerrenos(self, nombre):
@@ -35,9 +39,3 @@ class ListaTerreno():
                 print("Si se encontro: ", aux.nombre)
                 return True
             aux = aux.siguiente
-
-x = ListaTerreno()
-x.agregar("hola", 3, 2, 5, 1)
-x.agregar("hola32", 3, 2, 5, 1)
-
-x.mostrarTerrenos()
