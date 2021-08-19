@@ -1,3 +1,4 @@
+from matrizTerreno.matriz import Matriz
 class Nodo():
 
     def __init__(self, nombre, columna, fila, inicioX, inicioY, finX, finY):
@@ -8,6 +9,9 @@ class Nodo():
         self.inicioY = inicioY
         self.finX = finX
         self.finY = finY
+        self.matriz = Matriz()
         #Aqui instanciamos la matriz donde va el terreno
         self.siguiente = None
-        
+
+    def getTerreno(self):
+        return self.matriz

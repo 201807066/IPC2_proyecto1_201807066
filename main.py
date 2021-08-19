@@ -47,6 +47,12 @@ def cargar(ruta):
 
                 ListaTerreno.agregarTerreno(nombre, tamM, tamN, xInicio , yInicio, xFin, yFin)
 
+        #Agregamos la matriz a la lista de Terrenos
+        for subelemento in elemento.iter("posicion"):
+            print("x:", subelemento.attrib['x'], " y:",  subelemento.attrib['y'], " dato:", subelemento.text)
+            terreno = ListaTerreno.buscarTerreno(elemento.attrib["nombre"])
+            terreno.matriz.insertar(subelemento.attrib['x'], subelemento.attrib['y'], subelemento.text)
+            
 
 
 
@@ -67,8 +73,9 @@ def menu():
             cls()
             print("   --- Cargar Archivo ---   \n")
             try:
-                archivo = input("Ingrese nombre del archivo '.xml': ") 
-                Filename = 'D:/Users/Yayan/OneDrive/Escritorio/Desarrollo/Python/IPC2/Proyecto1/extras/' + archivo + '.xml'
+                # archivo = input("Ingrese nombre del archivo '.xml': ") 
+                # Filename = 'D:/Users/Yayan/OneDrive/Escritorio/Desarrollo/Python/IPC2/Proyecto1/extras/' + archivo + '.xml'
+                Filename = 'D:/Users/Yayan/OneDrive/Escritorio/Desarrollo/Python/IPC2/Proyecto1/extras/test.xml'
                 cargar(Filename)
                 input("\n--> Archivo cargado exitosamente...")
                 cls()
@@ -85,6 +92,18 @@ def menu():
             menu()
             break
         elif opc == "3":
+            cls()
+            nombre = input("Ingrese el nombre del terreno: \n")
+            terreno = ListaTerreno.buscarTerreno(nombre)
+
+            if terreno == None:
+                input("Terreno no ingresado aun...")
+            else:
+                print("Terreno: ", terreno.nombre)
+                terreno.matriz.recorrerFilas()
+                input("Presione para continuar")
+            
+            menu()
             break
         elif opc == "4":
             cls()      

@@ -1,4 +1,4 @@
-from nodoT import NodoTerreno, NodoEncabezado
+from matrizTerreno.nodoT import NodoTerreno, NodoEncabezado
 
 #Se crea las listas doblemente enlazadas el
 class ListaEncabezado():

@@ -1,5 +1,5 @@
-from nodoT import NodoTerreno, NodoEncabezado
-from encabezado import ListaEncabezado
+from matrizTerreno.nodoT import NodoTerreno, NodoEncabezado
+from matrizTerreno.encabezado import ListaEncabezado
 
 class Matriz():
     def __init__(self):
@@ -94,7 +94,7 @@ class Matriz():
 
 
 
-m = Matriz()
+"""m = Matriz()
 m.insertar(1,1,32)
 m.insertar(1,2,100)
 m.insertar(4,2,100)
@@ -102,4 +102,4 @@ m.insertar(6,2,100)
 m.insertar(2,2,100)
 m.recorrerFilas()
 print("\nREsadasdasjd")
-m.recorrerColumnas()
+m.recorrerColumnas()"""

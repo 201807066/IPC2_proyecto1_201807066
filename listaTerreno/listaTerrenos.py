@@ -31,11 +31,11 @@ class ListaTerreno():
             print("\n")
             aux = aux.siguiente
 
-    def buscarTerrenos(self, nombre):
+    def buscarTerreno(self, nombre):
         aux = self.inicio
 
         while  aux != None:
             if aux.nombre == nombre:
-                print("Si se encontro: ", aux.nombre)
-                return True
+                return aux
             aux = aux.siguiente
+        return None
