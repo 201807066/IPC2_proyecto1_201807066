@@ -1,5 +1,9 @@
+import os, sys
+
 from matrizTerreno.nodoT import NodoTerreno, NodoEncabezado
 from matrizTerreno.encabezado import ListaEncabezado
+
+from graphviz import Digraph, dot
 
 class Matriz():
     def __init__(self):
@@ -61,7 +65,6 @@ class Matriz():
                     aux.abajo = nuevo
                     nuevo.arriba = aux
 
-
     def recorrerFilas(self):
         eFila = self.eFilas.primero
         print("--> Recorrido por filas")
@@ -77,6 +80,7 @@ class Matriz():
 
             eFila = eFila.siguiente
 
+    
     def recorrerColumnas(self):
         eColumna = self.eColumnas.primero
         print("--> Recorrido por Columnas")
@@ -92,14 +96,93 @@ class Matriz():
 
             eColumna = eColumna.siguiente
 
+    def recorrido(self, Xi, Yi, Xf, Yf):
+        pass
+
+    def imagenDot(self):
+        f = Digraph(format = "png", name = "salida")
+        f.attr(size = "8.5")
+
+        eFila = self.eFilas.primero
+        eColumna = self.eColumnas.primero
+
+        cont = 0
+
+        while eFila:
+            f.node(str(cont), "Fila: " + str(eFila.id))
+            cont += 1
+            eFila = eFila.siguiente
+
+        f.node(str(cont), "Null")
+        cont = 0
+        eFila = self.eFilas.primero
+        while eFila:
+            f.edge(str(cont), str(cont + 1 ))
+            cont += 1
+            eFila = eFila.siguiente
+    
+
+        f.render()
+        os.system("salida.gv.png")
+        pass
+
+    def reporte(self, terreno):
+        nombre = "graphviz"
+        with open(nombre + ".dot", "w") as dot:
+            dot.write('digraph Matriz{\n')
+            dot.write('node[shape=box fontname=courier fillcolor="#FFEDBB" style=filled]\n')
+            dot.write('subgraph cluster{\n')
+            dot.write('root[label="0,0", fillcolor="#FF5733"]\n')
+            dot.write('label=' + terreno+'\n')
+            dot.write('bgcolor = "#33FF82"\n')
+            dot.write('edge[dir="both"]\n')
 
 
-"""m = Matriz()
-m.insertar(1,1,32)
-m.insertar(1,2,100)
-m.insertar(4,2,100)
-m.insertar(6,2,100)
-m.insertar(2,2,100)
-m.recorrerFilas()
-print("\nREsadasdasjd")
-m.recorrerColumnas()"""
+            #Consigo los nodos de las filas
+            eFila = self.eFilas.primero
+            contF = 1
+            while eFila != None:
+                dot.write('F'+str(contF)+'[label="'+str(eFila.id) +'", group = 1, fillcolor = "#DDEA3A"]\n')
+                contF += 1
+                eFila = eFila.siguiente
+
+            #Enlazo los nodos de las filas
+            contTFS = 1
+            while contTFS != contF:
+                dot.write('F'+str(contTFS)+'->F'+str(contTFS+1)+'\n')
+                contTFS += 1
+            
+            dot.write('F'+str(contTFS)+'[label="Null" fillcolor="red"]\n')
+
+            #Conigo los nodos de las columnas
+            eColumna = self.eColumnas.primero
+            contC = 1
+            while eColumna != None:
+                dot.write('C'+str(contC)+'[label="'+str(eColumna.id) +'", group = '+str(contC+1)+ ', fillcolor = "#DDEA3A"]\n')
+                contC += 1
+                eColumna = eColumna.siguiente
+            
+            #Enlazo los nodos de las columnas
+            contTCS = 1
+            while contTCS != contC:
+                dot.write('C'+str(contTCS)+'->C'+str(contTCS+1)+'\n')
+                contTCS += 1
+            
+            dot.write('C'+str(contTCS)+'[label="Null" fillcolor="red"]\n')
+
+            #Enlazamos la cabezera a las filas y columnas    
+            dot.write('root -> F1\n')
+            dot.write('root -> C1\n')
+
+            eColumna = self.eColumnas.primero
+            contC = 1
+            dot.write('{rank=same; root')
+            while eColumna != None:
+                dot.write(', C'+str(contC))
+                contC += 1
+                eColumna = eColumna.siguiente
+            dot.write(',C'+str(contC))
+            dot.write('}\n')
+            dot.write('}\n')
+            dot.write('}')
+        
