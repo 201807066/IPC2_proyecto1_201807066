@@ -180,8 +180,8 @@ class Matriz():
             while eColumna != None:
                 dot.write(', C'+str(contC))
                 contC += 1
-                eColumna = eColumna.siguiente
-            dot.write(',C'+str(contC))
+                eColumna = eColumna.siguiente 
+            dot.write(',C'+str(contC)+'\n')
             dot.write('}\n')
             dot.write('}\n')
             dot.write('}')
