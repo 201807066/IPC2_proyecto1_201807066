@@ -181,8 +181,55 @@ class Matriz():
                 dot.write(', C'+str(contC))
                 contC += 1
                 eColumna = eColumna.siguiente 
+
             dot.write(',C'+str(contC)+'\n')
             dot.write('}\n')
+
+            #Busco los datos ingresados en la matriz recorriendo mi matriz por medio de filas
+            efila = self.eFilas.primero
+
+            while efila != None:
+                aux = efila.acceso
+                while aux != None:
+                    dot.write('datoF'+str(aux.fila)+'_C'+str(aux.columna)+'[label="'+str(aux.valor) +'", group = '+str(int(aux.columna) + 1)+' , fillcolor = "#48C9B0"]\n')
+                    aux = aux.derecha
+                efila = efila.siguiente
+
+            #-----------------------------------------------------------#
+            #Ordenamos las eFilasefila = self.eFilas.primero
+            efila = self.eFilas.primero
+
+            while efila != None:
+                aux = efila.acceso
+                dot.write('\n')
+                while aux != None:
+                    dot.write('F'+str(aux.fila)+' -> datoF'+str(aux.fila)+'_C'+str(aux.columna)+'\n')
+                    dot.write('{rank = same; F'+str(aux.fila)+ ', datoF'+str(aux.fila)+'_C'+str(aux.columna))
+                    dot.write('}\n')
+                    """
+                    F2 -> nodoF2_C2
+                    nodoF2_C2 -> nodoF2_C4
+                    {rank = same; F2; nodoF2_C2; nodoF2_C4}
+                    """
+                    aux = aux.derecha
+                efila = efila.siguiente
+
+                """
+                /*Ahora alineamoso fila por fila*/
+                F1 -> nodoF1_C1
+                {rank = same; F1; nodoF1_C1}
+                F2 -> nodoF2_C2
+                nodoF2_C2 -> nodoF2_C4
+                {rank = same; F2; nodoF2_C2; nodoF2_C4}
+                F3 -> nodoF3_C4
+                {rank = same; F3; nodoF3_C4}
+                F4 -> nodoF4_C4
+                {rank = same; F4; nodoF4_C4}
+                F5 -> nodoF5_C3
+                nodoF5_C3 -> nodoF5_C5
+                {rank = same; F5; nodoF5_C3; nodoF5_C5}
+                """
+
             dot.write('}\n')
             dot.write('}')
         
