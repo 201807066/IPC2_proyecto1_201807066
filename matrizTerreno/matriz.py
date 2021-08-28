@@ -103,12 +103,12 @@ class Matriz():
         nombre = "graphviz"
         with open(nombre + ".dot", "w") as dot:
             dot.write('digraph Matriz{\n')
-            dot.write('node[shape=box fontname=courier fillcolor="#FFEDBB" style=filled]\n')
+            dot.write('node[shape=circle fontname=courier fillcolor="#FFEDBB" style=filled]\n')
             dot.write('subgraph cluster{\n')
-            dot.write('root[label="0,0", fillcolor="#FF5733"]\n')
+            dot.write('root[label="0", fillcolor="#FF5733"]\n')
             dot.write('label=' + terreno+'\n')
             dot.write('bgcolor = "#33FF82"\n')
-            dot.write('edge[dir="both"]\n')
+            dot.write('edge[dir="none"]\n')
 
 
             #1. Consigo los nodos de las filas----------------------------------------------------------------
@@ -145,7 +145,7 @@ class Matriz():
                     dot.write('C'+str(ecolumna.id)+'->C'+str(ecolumna.siguiente.id)+'\n')
                 ecolumna = ecolumna.siguiente
 
-            #Enlazamos la cabezera a las filas y columnas -----------------------------------------#   
+            #Enlazamos la cabezera a las filas y columnas---------------------------------------------------------------- 
             dot.write('root -> F1\n')
             dot.write('root -> C1\n')
 
@@ -159,7 +159,8 @@ class Matriz():
 
             dot.write('}\n')
 
-            #Busco los datos ingresados en la matriz recorriendo mi matriz por medio de filas-----------------------------#
+
+            #Busco los datos ingresados en la matriz recorriendo mi matriz por medio de filas----------------------------------------------------------------
             efila = self.eFilas.primero
 
             while efila != None:
@@ -169,68 +170,54 @@ class Matriz():
                     aux = aux.derecha
                 efila = efila.siguiente
 
-            #-----------------------------------------------------------#
-            #Enlazo y ordeno los nodos por medio de las filas
+            #------------------------------------------------------------------------------------#
             # /*Ahora alineamoso fila por fila*/
+
             efila = self.eFilas.primero
 
             while efila != None:
                 aux = efila.acceso
-                dot.write('\n')
+                dot.write("\n")
 
-                # Debe ser por columna
-                cont = 1
+                dot.write('F'+str(aux.fila)+' -> datoF'+str(aux.fila)+'_C'+str(aux.columna)+'\n')
                 while aux != None:
-
-                    if cont == 1:
-                        dot.write('F'+str(aux.fila)+' -> datoF'+str(aux.fila)+'_C'+str(aux.columna)+'\n')
+                    if aux.derecha != None:
                         dot.write('datoF'+str(aux.fila)+'_C'+str(aux.columna)+' -> datoF'+str(aux.fila)+'_C'+str(int(aux.columna)+1)+'\n')
-                        cont += 1
-                    else:
-                        dot.write('datoF'+str(aux.fila)+'_C'+str(aux.columna)+' -> datoF'+str(aux.fila)+'_C'+str(int(aux.columna)+1)+'\n')
-                        cont += 1
                     aux = aux.derecha
                 efila = efila.siguiente
 
             #---------------------------------------------------------------------------#
             #Agregamos {rank} para ordenar la fila
             efila = self.eFilas.primero
-            nFila = 1
+
             while efila != None:
                 aux = efila.acceso
                 dot.write('\n')
                 
-                cont = 1
-                dot.write('{rank = same; F'+ str(nFila))
+                
+                dot.write('{rank = same; F'+ str(efila.id))
                 while aux != None:
                     dot.write(', datoF'+str(aux.fila)+'_C'+str(aux.columna))
-                    cont += 1
+                    
                     aux = aux.derecha
                 
-                dot.write(', datoF'+str(efila.id)+'_C'+str(cont))
                 dot.write('}')
-                nFila += 1
+                
                 efila = efila.siguiente
 
             #-----------------------------------------------------------#
             #Enlazo y ordeno los nodos por medio de las columnas
             # /*Ahora alineamoso por columna*/
+
             ecolumna = self.eColumnas.primero
 
             while ecolumna != None:
                 aux = ecolumna.acceso
 
-                dot.write('\n')
-
-                cont = 1
+                dot.write('C'+str(aux.columna)+' -> datoF'+str(aux.fila)+'_C'+str(aux.columna)+'\n')
                 while aux != None:
-                    if cont == 1:
-                        dot.write('C'+str(aux.columna)+' -> datoF'+str(aux.fila)+'_C'+str(aux.columna)+'\n')
+                    if aux.abajo != None:
                         dot.write('datoF'+str(aux.fila)+'_C'+str(aux.columna)+' -> datoF'+str(int(aux.fila)+1)+'_C'+str(aux.columna)+'\n')
-                        cont += 1
-                    else:
-                        dot.write('datoF'+str(aux.fila)+'_C'+str(aux.columna)+' -> datoF'+str(int(aux.fila)+1)+'_C'+str(aux.columna)+'\n')
-                        cont += 1
                     aux = aux.abajo
                 ecolumna = ecolumna.siguiente
 
