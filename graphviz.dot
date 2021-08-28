@@ -1,5 +1,5 @@
 digraph Matriz{
-node[shape=box fontname=courier fillcolor="#FFEDBB" style=filled]
+node[shape=circle fontname=courier fillcolor="#FFEDBB" style=filled]
 subgraph cluster{
 root[label="0,0", fillcolor="#FF5733"]
 label=terreno1
@@ -14,8 +14,6 @@ F1->F2
 F2->F3
 F3->F4
 F4->F5
-F5->F6
-F6[label="Null" fillcolor="red"]
 C1[label="1", group = 2, fillcolor = "#DDEA3A"]
 C2[label="2", group = 3, fillcolor = "#DDEA3A"]
 C3[label="3", group = 4, fillcolor = "#DDEA3A"]
@@ -25,12 +23,9 @@ C1->C2
 C2->C3
 C3->C4
 C4->C5
-C5->C6
-C6[label="Null" fillcolor="red"]
 root -> F1
 root -> C1
-{rank=same; root, C1, C2, C3, C4, C5,C6
-}
+{rank=same; root, C1, C2, C3, C4, C5}
 datoF1_C1[label="1", group = 2 , fillcolor = "#48C9B0"]
 datoF1_C2[label="1", group = 3 , fillcolor = "#48C9B0"]
 datoF1_C3[label="5", group = 4 , fillcolor = "#48C9B0"]

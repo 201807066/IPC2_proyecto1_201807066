@@ -111,37 +111,39 @@ class Matriz():
             dot.write('edge[dir="both"]\n')
 
 
-            #Consigo los nodos de las filas
-            eFila = self.eFilas.primero
-            contF = 1
-            while eFila != None:
-                dot.write('F'+str(contF)+'[label="'+str(eFila.id) +'", group = 1, fillcolor = "#DDEA3A"]\n')
-                contF += 1
-                eFila = eFila.siguiente
+            #1. Consigo los nodos de las filas----------------------------------------------------------------
+            efila = self.eFilas.primero
 
-            #Enlazo los nodos de las filas
-            contTFS = 1
-            while contTFS != contF:
-                dot.write('F'+str(contTFS)+'->F'+str(contTFS+1)+'\n')
-                contTFS += 1
+            while efila != None:
+                dot.write('F'+str(efila.id)+'[label="'+str(efila.id) +'", group = 1, fillcolor = "#DDEA3A"]\n')
+                efila = efila.siguiente
             
-            dot.write('F'+str(contTFS)+'[label="Null" fillcolor="red"]\n')
 
-            #Consigo los nodos de las columnas
-            eColumna = self.eColumnas.primero
-            contC = 1
-            while eColumna != None:
-                dot.write('C'+str(contC)+'[label="'+str(eColumna.id) +'", group = '+str(contC+1)+ ', fillcolor = "#DDEA3A"]\n')
-                contC += 1
-                eColumna = eColumna.siguiente
+            #2.Enlazo los nodos de las filas----------------------------------------------------------------
+            efila = self.eFilas.primero
+
+            while efila != None:
+                if efila.siguiente != None:
+                    dot.write('F'+str(efila.id)+'->F'+str(efila.siguiente.id)+'\n')
+                efila = efila.siguiente
             
-            #Enlazo los nodos de las columnas
-            contTCS = 1
-            while contTCS != contC:
-                dot.write('C'+str(contTCS)+'->C'+str(contTCS+1)+'\n')
-                contTCS += 1
+
+            #3. Consigo los nodos de las columnas----------------------------------------------------------------
+
+            ecolumna = self.eColumnas.primero
+
+            while ecolumna != None:
+                dot.write('C'+str(ecolumna.id)+'[label="'+str(ecolumna.id) +'", group = '+str(int(ecolumna.id)+1)+ ', fillcolor = "#DDEA3A"]\n')
+                ecolumna = ecolumna.siguiente
             
-            dot.write('C'+str(contTCS)+'[label="Null" fillcolor="red"]\n')
+            #4. Enlazo los nodos de las columnas----------------------------------------------------------------
+
+            ecolumna = self.eColumnas.primero
+
+            while ecolumna != None:
+                if ecolumna.siguiente != None:
+                    dot.write('C'+str(ecolumna.id)+'->C'+str(ecolumna.siguiente.id)+'\n')
+                ecolumna = ecolumna.siguiente
 
             #Enlazamos la cabezera a las filas y columnas -----------------------------------------#   
             dot.write('root -> F1\n')
@@ -155,7 +157,6 @@ class Matriz():
                 contC += 1
                 eColumna = eColumna.siguiente
 
-            dot.write(',C'+str(contC)+'\n')
             dot.write('}\n')
 
             #Busco los datos ingresados en la matriz recorriendo mi matriz por medio de filas-----------------------------#

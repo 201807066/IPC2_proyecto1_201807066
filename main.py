@@ -93,7 +93,8 @@ def menu():
             break
         elif opc == "3":
             cls()
-            nombre = input("Ingrese el nombre del terreno: \n")
+            # nombre = input("Ingrese el nombre del terreno: \n")
+            nombre = "terreno1"
             terreno = ListaTerreno.buscarTerreno(nombre)
 
             if terreno == None:
