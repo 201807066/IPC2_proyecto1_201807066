@@ -1,5 +1,7 @@
 import os, sys
 
+from os import startfile, system
+
 from matrizTerreno.nodoT import NodoTerreno, NodoEncabezado
 from matrizTerreno.encabezado import ListaEncabezado
 
@@ -96,35 +98,6 @@ class Matriz():
 
             eColumna = eColumna.siguiente
 
-    def recorrido(self, Xi, Yi, Xf, Yf):
-        pass
-
-    def imagenDot(self):
-        f = Digraph(format = "png", name = "salida")
-        f.attr(size = "8.5")
-
-        eFila = self.eFilas.primero
-        eColumna = self.eColumnas.primero
-
-        cont = 0
-
-        while eFila:
-            f.node(str(cont), "Fila: " + str(eFila.id))
-            cont += 1
-            eFila = eFila.siguiente
-
-        f.node(str(cont), "Null")
-        cont = 0
-        eFila = self.eFilas.primero
-        while eFila:
-            f.edge(str(cont), str(cont + 1 ))
-            cont += 1
-            eFila = eFila.siguiente
-    
-
-        f.render()
-        os.system("salida.gv.png")
-        pass
 
     def reporte(self, terreno):
         nombre = "graphviz"
@@ -154,7 +127,7 @@ class Matriz():
             
             dot.write('F'+str(contTFS)+'[label="Null" fillcolor="red"]\n')
 
-            #Conigo los nodos de las columnas
+            #Consigo los nodos de las columnas
             eColumna = self.eColumnas.primero
             contC = 1
             while eColumna != None:
@@ -170,7 +143,7 @@ class Matriz():
             
             dot.write('C'+str(contTCS)+'[label="Null" fillcolor="red"]\n')
 
-            #Enlazamos la cabezera a las filas y columnas    
+            #Enlazamos la cabezera a las filas y columnas -----------------------------------------#   
             dot.write('root -> F1\n')
             dot.write('root -> C1\n')
 
@@ -180,12 +153,12 @@ class Matriz():
             while eColumna != None:
                 dot.write(', C'+str(contC))
                 contC += 1
-                eColumna = eColumna.siguiente 
+                eColumna = eColumna.siguiente
 
             dot.write(',C'+str(contC)+'\n')
             dot.write('}\n')
 
-            #Busco los datos ingresados en la matriz recorriendo mi matriz por medio de filas
+            #Busco los datos ingresados en la matriz recorriendo mi matriz por medio de filas-----------------------------#
             efila = self.eFilas.primero
 
             while efila != None:
@@ -196,40 +169,71 @@ class Matriz():
                 efila = efila.siguiente
 
             #-----------------------------------------------------------#
-            #Ordenamos las eFilasefila = self.eFilas.primero
+            #Enlazo y ordeno los nodos por medio de las filas
+            # /*Ahora alineamoso fila por fila*/
             efila = self.eFilas.primero
 
             while efila != None:
                 aux = efila.acceso
                 dot.write('\n')
+
+                # Debe ser por columna
+                cont = 1
                 while aux != None:
-                    dot.write('F'+str(aux.fila)+' -> datoF'+str(aux.fila)+'_C'+str(aux.columna)+'\n')
-                    dot.write('{rank = same; F'+str(aux.fila)+ ', datoF'+str(aux.fila)+'_C'+str(aux.columna))
-                    dot.write('}\n')
-                    """
-                    F2 -> nodoF2_C2
-                    nodoF2_C2 -> nodoF2_C4
-                    {rank = same; F2; nodoF2_C2; nodoF2_C4}
-                    """
+
+                    if cont == 1:
+                        dot.write('F'+str(aux.fila)+' -> datoF'+str(aux.fila)+'_C'+str(aux.columna)+'\n')
+                        dot.write('datoF'+str(aux.fila)+'_C'+str(aux.columna)+' -> datoF'+str(aux.fila)+'_C'+str(int(aux.columna)+1)+'\n')
+                        cont += 1
+                    else:
+                        dot.write('datoF'+str(aux.fila)+'_C'+str(aux.columna)+' -> datoF'+str(aux.fila)+'_C'+str(int(aux.columna)+1)+'\n')
+                        cont += 1
                     aux = aux.derecha
                 efila = efila.siguiente
 
-                """
-                /*Ahora alineamoso fila por fila*/
-                F1 -> nodoF1_C1
-                {rank = same; F1; nodoF1_C1}
-                F2 -> nodoF2_C2
-                nodoF2_C2 -> nodoF2_C4
-                {rank = same; F2; nodoF2_C2; nodoF2_C4}
-                F3 -> nodoF3_C4
-                {rank = same; F3; nodoF3_C4}
-                F4 -> nodoF4_C4
-                {rank = same; F4; nodoF4_C4}
-                F5 -> nodoF5_C3
-                nodoF5_C3 -> nodoF5_C5
-                {rank = same; F5; nodoF5_C3; nodoF5_C5}
-                """
+            #---------------------------------------------------------------------------#
+            #Agregamos {rank} para ordenar la fila
+            efila = self.eFilas.primero
+            nFila = 1
+            while efila != None:
+                aux = efila.acceso
+                dot.write('\n')
+                
+                cont = 1
+                dot.write('{rank = same; F'+ str(nFila))
+                while aux != None:
+                    dot.write(', datoF'+str(aux.fila)+'_C'+str(aux.columna))
+                    cont += 1
+                    aux = aux.derecha
+                
+                dot.write(', datoF'+str(efila.id)+'_C'+str(cont))
+                dot.write('}')
+                nFila += 1
+                efila = efila.siguiente
+
+            #-----------------------------------------------------------#
+            #Enlazo y ordeno los nodos por medio de las columnas
+            # /*Ahora alineamoso por columna*/
+            ecolumna = self.eColumnas.primero
+
+            while ecolumna != None:
+                aux = ecolumna.acceso
+
+                dot.write('\n')
+
+                cont = 1
+                while aux != None:
+                    if cont == 1:
+                        dot.write('C'+str(aux.columna)+' -> datoF'+str(aux.fila)+'_C'+str(aux.columna)+'\n')
+                        dot.write('datoF'+str(aux.fila)+'_C'+str(aux.columna)+' -> datoF'+str(int(aux.fila)+1)+'_C'+str(aux.columna)+'\n')
+                        cont += 1
+                    else:
+                        dot.write('datoF'+str(aux.fila)+'_C'+str(aux.columna)+' -> datoF'+str(int(aux.fila)+1)+'_C'+str(aux.columna)+'\n')
+                        cont += 1
+                    aux = aux.abajo
+                ecolumna = ecolumna.siguiente
 
             dot.write('}\n')
             dot.write('}')
-        
+        system("dot -Tpng graphviz.dot -o graphviz.png")
+        startfile("graphviz.png")

@@ -101,8 +101,7 @@ def menu():
             else:
                 print("Terreno: ", terreno.nombre)
                 terreno.matriz.recorrerFilas()
-                input()
-                terreno.matriz.imagenDot()
+                print("Imagen generada...\n")
                 terreno.matriz.reporte(nombre)
                 input("Presione para continuar")
             
@@ -133,5 +132,3 @@ def menu():
             break
 
 menu()
-
-#  "editor.fontLigatures": true,

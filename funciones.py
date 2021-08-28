@@ -100,10 +100,9 @@ if __name__ == "__main__":
     generar()"""
 
 
-cont = 10 
+cont = 1
+print("numero->",cont)
 
-x = 1
-
-for i in range(cont):
-    print(x)
-    x += 1
+while cont != 7:
+    print("hola")
+    cont += 1
