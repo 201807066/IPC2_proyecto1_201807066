@@ -61,11 +61,10 @@ def menu():
     while True:
         print("""\n          ***   Menú Principal   ***\n          
         1. Cargar archivo
-        2. Procesar archivo
-        3. Escribir archivo salida
+        2. Mostrar Terrenos
+        3. Generar gráfica
         4. Mostrar datos del estudiante
-        5. Generar gráfica
-        6. Salir""")
+        5. Salir""")
 
         opc = input("\nOpción a realizar: ")
 
@@ -73,9 +72,9 @@ def menu():
             cls()
             print("   --- Cargar Archivo ---   \n")
             try:
-                # archivo = input("Ingrese nombre del archivo '.xml': ") 
-                # Filename = 'D:/Users/Yayan/OneDrive/Escritorio/Desarrollo/Python/IPC2/Proyecto1/extras/' + archivo + '.xml'
-                Filename = 'D:/Users/Yayan/OneDrive/Escritorio/Desarrollo/Python/IPC2/Proyecto1/extras/test.xml'
+                archivo = input("Ingrese nombre del archivo '.xml': ") 
+                Filename = 'D:/Users/Yayan/OneDrive/Escritorio/Desarrollo/Python/IPC2/Proyecto1/extras/' + archivo + '.xml'
+                # Filename = 'D:/Users/Yayan/OneDrive/Escritorio/Desarrollo/Python/IPC2/Proyecto1/extras/test.xml'
                 cargar(Filename)
                 input("\n--> Archivo cargado exitosamente...")
                 cls()
@@ -124,8 +123,6 @@ def menu():
             menu()
             break
         elif opc == "5":
-            break
-        elif opc == "6":
             cls()
             print("Saliendo del sistema...")
             time.sleep(0.5)

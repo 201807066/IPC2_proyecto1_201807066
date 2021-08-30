@@ -224,4 +224,6 @@ class Matriz():
             dot.write('}\n')
             dot.write('}')
         system("dot -Tpng graphviz.dot -o graphviz.png")
+        system("dot -Tpdf graphviz.dot -o graphviz.pdf")
         startfile("graphviz.png")
+        startfile("graphviz.pdf")
